@@ -1,4 +1,4 @@
-const CELL = 80;
+const CELL = 50;
 let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 1;
 let cnv;
 function setup() {
@@ -29,7 +29,7 @@ function draw() {
 		am.show();
 		am.infographic();
 
-		// document.getElementById('frameRate').innerHTML = frameRate();
+		document.getElementById('frameRate').innerHTML = frameRate();
 }
 
 function mousePressed() {

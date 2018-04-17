@@ -33,7 +33,7 @@ class AgentModel {
 		* cyan = prey
 		* magenta = predator
 		*/
-		this.colors = [color(255), color(0, 255, 255), color(255, 0, 255)];
+		this.colors = [color(255, 0), color(0, 255, 255), color(255, 0, 255)];
 		this.threshold = t;
 		this.ps = pixSize;
 		this.grid = [];
@@ -50,13 +50,15 @@ class AgentModel {
 			}
 			this.grid[x] = temp;
 		}
+		this.grass = new Grass(this.cols, this.rows, this.ps);
 	}
 	/**
 	 * sets the size of the pixel
 	 * @param {Number} val radius of the new pixel
 	 */
-	setPixSize(val){
+	setPixSize(val) {
 		this.ps = val;
+		grass.setPiselSize(val);
 	}
 	/**
 	* this function updates the model 
@@ -87,7 +89,23 @@ class AgentModel {
 			predator.splice(0, 1);
 		}
 	}
-
+	/**function show
+	* shows tha agents as square / pixel 
+	*/
+	show() {
+		this.grass.show();
+		noStroke();
+		for (let y = 0; y < this.rows; y++) {
+			for (let x = 0; x < this.cols; x++) {
+				let nx = x * this.ps;
+				let ny = y * this.ps;
+				let c = this.colors[this.grid[x][y].type];
+				fill(c);
+				// ellipse(x * this.ps, y * this.ps, this.ps, this.ps);
+				rect(x * this.ps, y * this.ps, this.ps, this.ps);
+			}
+		}
+	}
 	/**
 	* this function draws an infographic dispaying every moment the number of 
 	* different agents drawn to the screen
@@ -287,20 +305,5 @@ class AgentModel {
 			}
 		}
 	}
-	/**function show
-	* shows tha agents as square / pixel 
-	*/
-	show() {
-		noStroke();
-		for (let y = 0; y < this.rows; y++) {
-			for (let x = 0; x < this.cols; x++) {
-				let nx = x * this.ps;
-				let ny = y * this.ps;
-				let c = this.colors[this.grid[x][y].type];
-				fill(c);
-				// ellipse(x * this.ps, y * this.ps, this.ps, this.ps);
-				rect(x * this.ps, y * this.ps, this.ps, this.ps);
-			}
-		}
-	}
+
 }
