@@ -16,8 +16,13 @@ class Agent {
 			else this.type = 2;
 		}
 	}
-	update() {
-		if (this.type == 1) this.health += this.inc;
+	update(x, y, food) {
+		if (this.type == 1) {
+			if (!food.growing) {
+				this.health += this.inc;
+				food.consume(x, y, this.inc);
+			}
+		}
 		if (this.type == 2) this.health -= this.inc;
 		if (this.health > this.maxHealth) this.health = this.maxHealth;
 	}

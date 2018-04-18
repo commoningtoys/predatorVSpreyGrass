@@ -50,7 +50,7 @@ class AgentModel {
 			}
 			this.agents[x] = temp;
 		}
-		this.grass = new Grass(this.cols, this.rows, this.ps);
+		this.grass = new Grass(this.cols, this.rows, this.ps, 10);
 	}
 	/**
 	 * sets the size of the pixel
@@ -70,7 +70,7 @@ class AgentModel {
 			for (let x = 0; x < this.cols; x++) {
 				//update every single Agent
 				//the health increases or decreases according to the type
-				this.agents[x][y].update();
+				this.agents[x][y].update(x, y, this.grass);
 				//kill all the predator with health lower than 1
 				if (this.agents[x][y].health < 1) this.agents[x][y].type = 0;
 				//move the Agents that are not "Nothing"
@@ -80,6 +80,7 @@ class AgentModel {
 				if (this.agents[x][y].type == 2) predatorCount++;
 			}
 		}
+		this.grass.update();
 		//push the data into arrays
 		prey.push(preyCount);
 		predator.push(predatorCount);
