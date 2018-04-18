@@ -1,14 +1,19 @@
 # Predator and Prey Model
 
 ## [WEB APP](http://commoning.rocks/predatorVSpreyGrass/)
+
 The model is based on the following simple rules:
-### Prey:
+
+### Prey
+
 * Tries to move in a random direction.
 * Health increases.
 * When health reaches a threshold:
     * They will reproduce, creating a new "Prey"
     * Their health resets to 1
-### Predator:
+
+### Predator
+
 * Tries to move in a random direction.
 * Health decreases.
 * When health reaches 0, they die and turn into "Nothing".
