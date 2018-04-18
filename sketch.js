@@ -29,7 +29,7 @@ function draw() {
 		am.show();
 		am.infographic();
 
-		document.getElementById('frameRate').innerHTML = frameRate();
+		// document.getElementById('frameRate').innerHTML = frameRate();
 }
 
 function mousePressed() {
