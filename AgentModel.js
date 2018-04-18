@@ -26,7 +26,7 @@ let preyCount, predatorCount, prey = [], predator = [];
 * @param {int} MaxH - sets the maximum health of the agents
 */
 class AgentModel {
-	constructor(pixSize, t, percN, percPrey, MaxH) {
+	constructor(pixSize, t, percEmpty, percPrey, MaxH) {
 		/**
 		* colors of the agents
 		* white = nothing
@@ -46,7 +46,7 @@ class AgentModel {
 		for (let x = 0; x < this.cols; x++) {
 			let temp = [];
 			for (let y = 0; y < this.rows; y++) {
-				temp[y] = new Agent(percN, percPrey, MaxH);
+				temp[y] = new Agent(percEmpty, percPrey, MaxH);
 			}
 			this.agents[x] = temp;
 		}
@@ -58,7 +58,7 @@ class AgentModel {
 	 */
 	setPixSize(val) {
 		this.ps = val;
-		grass.setPiselSize(val);
+		this.grass.setPixelSize(val);
 	}
 	/**
 	* this function updates the model 
@@ -89,7 +89,8 @@ class AgentModel {
 			predator.splice(0, 1);
 		}
 	}
-	/**function move
+	/**
+	 * function move
 	* genarates a random number between 0 and 3 and this defines
 	* in which direction the agent moves
 	* @param {int} x - x position
@@ -97,28 +98,23 @@ class AgentModel {
 	*/
 	move(x, y) {
 		let dir = random(this.direction);
-		// console.log(dir);
 		// wrap around with modulo
 		let posX = (x + dir.x + this.cols) % this.cols;
 		let posY = (y + dir.y + this.rows) % this.rows;
-		// if (y == 0) {//here we check the upper edge
-		// 	this.move(x, y);//recursion
-		// 	return;
-		// }
 		//if the neighbour cell is "Nothing" the agent can move
 		if (this.agents[posX][posY].type == 0) {
 			// swap the cells nothing and agent
 			let temp = this.agents[x][y].type;//we store the Agent in a temporary variable
 			this.agents[x][y].type = this.agents[posX][posY].type;//and here we swap
-			this.agents[posX][posY].type = temp;			
+			this.agents[posX][posY].type = temp;
+			//reproduction: if the agent is a prey and its healty than reproduce
+			if (this.agents[posX][posY].type == 1 && this.agents[posX][posY].health > this.threshold) {
+				this.agents[x][y].type = 1;
+				this.agents[x][y].health = 1;
+				this.agents[posX][posY].health = 1;
+			}
+			return;
 		}
-		//reproduction: if the agent is a prey and its healty than reproduce
-		if (this.agents[posX][posY].type == 1 && this.agents[posX][posY].health > this.threshold) {
-			this.agents[x][y].type = 1;
-			this.agents[x][y].health = 1;
-			this.agents[posX][posY].health = 1;
-		}
-
 		//if neighbour Agent is a predator
 		//the Predator eats the prey and reproduces himself and gets the health of the prey
 		if (this.agents[posX][posY].type == 2 && this.agents[x][y].type == 1) {
@@ -127,11 +123,6 @@ class AgentModel {
 			this.agents[posX][posY].type = 2;
 			this.agents[posX][posY].health += h;
 		}
-
-		// if (dir == 0) this.moveUp(x, y);
-		// if (dir == 1) this.moveRight(x, y);
-		// if (dir == 2) this.moveDown(x, y);
-		// if (dir == 3) this.moveLeft(x, y);
 	}
 	/**function show
 	* shows tha agents as square / pixel 
@@ -181,139 +172,6 @@ class AgentModel {
 				vertex(left + i * 3, top + val);
 			}
 			endShape();
-		}
-	}
-
-	/**function moveUp
-	* moves the Agent up
-	* if the agent is already on the upper edge 
-	* calls the move function and exits the function
-	* @param {int} x - x position
-	* @param {int} y - y position
-	*/
-	moveUp(x, y) {
-		if (y == 0) {//here we check the upper edge
-			this.move(x, y);//recursion
-			return;
-		}
-		//if the upper cell is "Nothing" the agent can move up
-		if (this.agents[x][y - 1].type == 0) {
-			let temp = this.agents[x][y - 1].type;//we store the Agent in a temporary variable
-			this.agents[x][y - 1].type = this.agents[x][y].type;//and here we swap
-			//reproduction: if the agent is a prey and its healty than reproduce
-			if (this.agents[x][y].type == 1 && this.agents[x][y].health > threshold) {
-				this.agents[x][y].type = 1;
-				this.agents[x][y].health = 1;
-				this.agents[x][y - 1].health = 1;
-			} else this.agents[x][y].type = temp;
-			return;
-		}
-		//if neighbour Agent is a predator
-		//the Predator eats the prey and reproduces himself and gets the health of the prey
-		if (this.agents[x][y - 1].type == 2 && this.agents[x][y].type == 1) {
-			let h = this.agents[x][y].health;
-			this.agents[x][y].type = 2;
-			this.agents[x][y - 1].type = 2;
-			this.agents[x][y - 1].health += h;
-		}
-	}
-	/**function moveRight
-	* moves the Agent right 
-	* if the agent is already on the right edge 
-	* it calls the move function and exits the function
-	* @param {int} x - x position
-	* @param {int} y - y position
-	*/
-	moveRight(x, y) {
-		if (x >= this.cols - 1) {//here we check the right edge
-			this.move(x, y);//recursion
-			return;
-		}
-		//if the right cell is "Nothing" the agent can move right
-		if (this.agents[x + 1][y].type == 0) {
-			let temp = this.agents[x + 1][y].type;//we store the Agent in a temporary variable
-			this.agents[x + 1][y].type = this.agents[x][y].type;//and here we swap
-			//reproduction: if the agent is a prey and its healty than reproduce
-			if (this.agents[x][y].type == 1 && this.agents[x][y].health > this.threshold) {
-				this.agents[x][y].type = 1;
-				this.agents[x][y].health = 1;
-				this.agents[x + 1][y].health = 1;
-			} else this.agents[x][y].type = temp;
-			return;
-		}
-		//if neighbour Agent is a predator
-		//the Predator eats the prey and reproduces himself and gets the health of the prey
-		if (this.agents[x + 1][y].type == 2 && this.agents[x][y].type == 1) {
-			let h = this.agents[x][y].health;
-			this.agents[x][y].type = 2;
-			this.agents[x + 1][y].type = 2;
-			this.agents[x + 1][y].health += h;
-		}
-	}
-	/**function moveDown
-	* moves the Agent down 
-	* if the agent is already on the bottom edge 
-	* it calls the move function and exits the function
-	* @param {int} x - x position
-	* @param {int} y - y position
-	*/
-	moveDown(x, y) {
-		if (y >= this.rows - 1) {//here we check the bottom edge
-			this.move(x, y);//recursion
-			return;
-		}
-		//if the right cell is "Nothing" the agent can move down
-		if (this.agents[x][y + 1].type == 0) {
-			let temp = this.agents[x][y + 1].type;//we store the Agent in a temporary variable
-			this.agents[x][y + 1].type = this.agents[x][y].type;//and here we swap
-			//reproduction: if the agent is a prey and its healty than reproduce
-			if (this.agents[x][y].type == 1 && this.agents[x][y].health > threshold) {
-				this.agents[x][y].type = 1;
-				this.agents[x][y].health = 1;
-				this.agents[x][y + 1].health = 1;
-			} else this.agents[x][y].type = temp;
-			return;
-		}
-		//if neighbour Agent is a predator
-		//the Predator eats the prey and reproduces himself and gets the health of the prey
-		if (this.agents[x][y + 1].type == 2 && this.agents[x][y].type == 1) {
-			let h = this.agents[x][y].health;
-			this.agents[x][y].type = 2;
-			this.agents[x][y + 1].type = 2;
-			this.agents[x][y + 1].health += h;
-		}
-	}
-	/**function moveLeft
-	* moves the Agent left
-	* if the agent is already on the left edge 
-	* it calls the move function and exits the function
-	* @param {int} x - x position
-	* @param {int} y - y position
-	*/
-	moveLeft(x, y) {
-		if (x == 0) {//here we check the left edge
-			this.move(x, y);//recursion
-			return;
-		}
-		//if the right cell is "Nothing" the agent can move left
-		if (this.agents[x - 1][y].type == 0) {
-			let temp = this.agents[x - 1][y].type;//we store the Agent in a temporary variable
-			this.agents[x - 1][y].type = this.agents[x][y].type;//and here we swap
-			//reproduction: if the agent is a prey and its healty than reproduce
-			if (this.agents[x][y].type == 1 && this.agents[x][y].health > threshold) {
-				this.agents[x][y].type = 1;
-				this.agents[x][y].health = 1;
-				this.agents[x - 1][y].health = 1;
-			} else this.agents[x][y].type = temp;//else move to that position
-			return;
-		}
-		//if neighbour Agent is a predator
-		//the Predator eats the prey and reproduces himself and gets the health of the prey
-		if (this.agents[x - 1][y].type == 2 && this.agents[x][y].type == 1) {
-			let h = this.agents[x][y].health;
-			this.agents[x][y].type = 2;
-			this.agents[x - 1][y].type = 2;
-			this.agents[x - 1][y].health += h;
 		}
 	}
 	/**function addAgent

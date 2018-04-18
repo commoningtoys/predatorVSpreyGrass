@@ -18,21 +18,58 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="initModel()" onresize="windowResized()">
-	<div id="p5Sketch"></div>
-	<input type="range" style="top: 5px" id="threshold" value="2" min="2" max="100" step="1" onload="updateValue()" onchange="updateValue()">
-	<input type="range" style="top: 55px" id="maxHealth" value="300" min="5" max="300" step="1" onchange="updateValue()">
-	<input type="range" style="top: 105px" id="empty" value="90" min="10" max="90" step="1" onchange="updateValue()">
-	<input type="range" style="top: 155px" id="prey" value="62" min="10" max="100" step="1" onchange="updateValue()">
-	<input type="range" style="top: 205px" id="speed" value="50" min="1" max="100" step="1" onchange="updateValue()" onload="updateValue()">
-	<button type="button" id="playPause" style="top: 255px;" id="initModel" onclick="initModel()">PLAY</button>
-	<div class="inputValue" style="top: 5px" id="thehreshold">THRESHOLD: 2</div>
-	<div class="inputValue" style="top: 55px" id="themaxHealth">MAX HEALTH: 10</div>
-	<div class="inputValue" style="top: 105px" id="theempty">EMPTY: 30%</div>
-	<div class="inputValue" style="top: 155px" id="theprey">PREY: 30%</div>
-	<div class="inputValue" style="top: 205px" id="thespeed">SPEED: 50%</div>
-	<button type="button" style="top: 550px; font-size: 90%;" id="howButton" onclick="showDescription()">HOW IT WORKS</button>
-	<div id="frameRate" style="top: 600px; position: fixed;"></div>
+<body onresize="windowResized()">
+	<div id="container">
+		<div id="frameRate" style="top: 600px; position: fixed;"></div>
+		<div id="p5Sketch">
+			<div class="menu">
+				<table>
+					<tr>
+						<th>
+							<input type="range" id="threshold" value="2" min="2" max="100" step="1" onchange="updateValue()">
+						</th>
+						<th>
+							<div class="inputValue" id="thehreshold">THRESHOLD: 2</div>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<input type="range" id="maxHealth" value="300" min="5" max="300" step="1" onchange="updateValue()">
+						</th>
+						<th>
+							<div class="inputValue" id="themaxHealth">MAX HEALTH: 300</div>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<input type="range" id="empty" value="90" min="10" max="90" step="1" onchange="updateValue()">
+						</th>
+						<th>
+							<div class="inputValue" id="theempty">EMPTY: 90%</div>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<input type="range" id="prey" value="62" min="10" max="100" step="1" onchange="updateValue()">
+						</th>
+						<th>
+							<div class="inputValue" id="theprey">PREY: 62%</div>
+						</th>
+					</tr>
+					<tr>
+						<th>
+							<input type="range" id="speed" value="50" min="1" max="100" step="1" onchange="updateValue()">
+						</th>
+						<th>
+							<div class="inputValue" id="thespeed">SPEED: 50%</div>
+						</th>
+					</tr>
+				</table>
+				<button type="button" id="playPause" id="initModel" onclick="initModel()">PLAY</button>
+				<!-- <button type="button" id="howButton" onclick="showDescription()">HOW IT WORKS</button> -->
+			</div>
+		</div>
+	</div>
 	<div class="textElement" id="description">
 		<h2>Predator and Prey Model</h2>
 		The model is based on the following simple rules:

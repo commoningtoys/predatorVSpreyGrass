@@ -1,8 +1,8 @@
 const CELL = 50;
-let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 1;
+let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 50;
 let cnv;
 function setup() {
-	w = floor(windowHeight / CELL) * CELL;
+	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
 	cnv = createCanvas(w, w);
 	cnv.parent('p5Sketch');
@@ -36,6 +36,17 @@ function mousePressed() {
 	if (play) am.addAgent(mouseX, mouseY, mouseButton);
 }
 
+/**
+ * 
+ * @returns the minimum between width and height of the contained div
+ */
+function minimum(){
+	let cnvDiv = document.getElementById('p5Sketch');
+	let w = cnvDiv.offsetWidth;
+	let h = cnvDiv.offsetHeight;
+	if(w < h) return w;
+	else return h;
+}
 
 function windowResized(){
 	w = floor(windowHeight / CELL) * CELL;
@@ -45,11 +56,12 @@ function windowResized(){
 }
 
 function initModel() {
-	let input1 = document.getElementById("threshold").value;
-	let input2 = document.getElementById("maxHealth").value;
-	let input3 = document.getElementById("empty").value;
-	let input4 = document.getElementById("prey").value;
-	am = new AgentModel(agentSize, input1, input3, input4, input2);
+	let threshold = document.getElementById("threshold").value;
+	let maxHealth = document.getElementById("maxHealth").value;
+	let empty = document.getElementById("empty").value;
+	let prey = document.getElementById("prey").value;
+	console.log(threshold, empty, prey, maxHealth)
+	am = new AgentModel(agentSize, threshold, empty, prey, maxHealth);
 }
 function updateValue() {
 	document.getElementById("thehreshold").innerHTML = "THRESHOLD: " + document.getElementById("threshold").value;
