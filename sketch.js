@@ -4,7 +4,7 @@ let cnv;
 function setup() {
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
-	cnv = createCanvas(w, w);
+	cnv = createCanvas(w, innerHeight);
 	cnv.parent('p5Sketch');
 	pixelDensity(1);
 	noStroke();
@@ -42,17 +42,19 @@ function mousePressed() {
  */
 function minimum(){
 	let cnvDiv = document.getElementById('p5Sketch');
+
 	let w = cnvDiv.offsetWidth;
 	let h = cnvDiv.offsetHeight;
+	console.log(w, h);
 	if(w < h) return w;
 	else return h;
 }
 
 function windowResized(){
-	w = floor(windowHeight / CELL) * CELL;
+	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
 	am.setPixSize(agentSize);
-	resizeCanvas(w, w);
+	resizeCanvas(w, innerHeight);
 }
 
 function initModel() {

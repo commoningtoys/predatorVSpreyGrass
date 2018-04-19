@@ -43,7 +43,6 @@ class Grass {
         }
     }
     grassAmountPercentage(){
-        console.log(this.currentGrassAmount);
         return (this.currentGrassAmount / this.totalGrassAmount) * 100;
     }
     consume(x, y, eatenAmount) {

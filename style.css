@@ -106,6 +106,7 @@
 	}
     #p5Sketch{
 		width: 70%;
+		max-width: 750px;
 		height: auto;
 		min-height: 800px;
 		display: block;

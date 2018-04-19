@@ -40,11 +40,14 @@ class AgentModel {
 		this.colors = [color(255, 0), color(0, 255, 255), color(255, 0, 255)];
 		this.threshold = t;
 		this.ps = pixSize;
+		this.modelWidth = 0;
+		this.modelHeight = 0;
 		this.agents = [];
 		this.direction = [createVector(0, 1), createVector(1, 0), createVector(0, -1), createVector(-1, 0)];
 		// console.log(direction[floor(random(3))].x);
-		this.rows = floor(height / pixSize);
+		this.rows = floor(width / pixSize);
 		this.cols = floor(width / pixSize);
+		this.setModelDimensions();
 		total = this.rows * this.cols;
 		//2D array filled with Agents
 		for (let x = 0; x < this.cols; x++) {
@@ -66,6 +69,12 @@ class AgentModel {
 	setPixSize(val) {
 		this.ps = val;
 		this.grass.setPixelSize(val);
+		this.setModelDimensions();
+	}
+	setModelDimensions(){
+		this.modelWidth = this.cols * this.ps;
+		this.modelHeight = this.rows * this.ps;
+		console.log(this.modelWidth, this.modelHeight);
 	}
 	/**
 	* this function updates the model 
@@ -92,7 +101,7 @@ class AgentModel {
 		predator.push((predatorCount / total) * 100);
 		grassAmount.push(this.grass.grassAmountPercentage());
 		//if array bigger than tot unit erase the first entry
-		if (prey.length > 1000) {
+		if (prey.length > width) {
 			prey.splice(0, 1);
 			predator.splice(0, 1);
 			grassAmount.splice(0, 1);
@@ -157,12 +166,14 @@ class AgentModel {
 	* different agents drawn to the screen
 	*/
 	infographic() {
-		let top = 500, infoH = -200, left = 10, gutter = 7;
+		let infoHeight = height - this.modelHeight;
+		let left = 10;
+		let gutter = 7;
 		//first we draw a transparent background
 		strokeWeight(3);
-		stroke(0);
+		noStroke();
 		fill(255, 200);
-		rect(left - gutter, top + gutter, 50 * 3 + gutter * 2, infoH - gutter * 2);
+		rect(0, this.modelHeight, width, infoHeight);
 		showData(prey, this.colors[1]);
 		showData(predator, this.colors[2]);
 		showData(grassAmount, color(0, 255, 0));
@@ -180,8 +191,8 @@ class AgentModel {
 			//with begin/endShape()
 			beginShape();
 			for (let i = 0; i < arr.length; i++) {
-				let val = map(arr[i], 0, 100, 0, infoH);
-				vertex(left + i, top + val);
+				let val = map(arr[i], 0, 100, 0, infoHeight);
+				vertex(left + i, height - val);
 			}
 			endShape();
 		}
@@ -222,5 +233,4 @@ class AgentModel {
 			}
 		}
 	}
-
 }
