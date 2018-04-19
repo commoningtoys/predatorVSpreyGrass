@@ -5,6 +5,7 @@ class Agent {
 		this.health = 60;
 		this.maxHealth = mH
 		this.inc = 1;
+		this.trail = [];
 		let prob = random(100);
 		if (prob < perc1) {
 			this.type = 0;
@@ -25,5 +26,24 @@ class Agent {
 		}
 		if (this.type == 2) this.health -= this.inc;
 		if (this.health > this.maxHealth) this.health = this.maxHealth;
+	}
+	/**
+	 * this function adds points to the trail of each agent
+	 * @param {Number} x position on x axis
+	 * @param {Number} y position on y axis
+	 */
+	addTrailPoint(x, y){
+		this.trail.push(createVector(x, y));
+		if(this.trail.length > 3)this.trail.splice(0, 1);
+	}
+	showTrail(){
+		noFill();
+		stroke(255 * (this.type - 1))
+		strokeWeight(2)
+		beginShape();
+		for(let p of this.trail){
+			vertex(p.x, p.y)
+		}
+		endShape();
 	}
 }

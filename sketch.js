@@ -1,4 +1,4 @@
-const CELL = 50;
+const CELL = 80;
 let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 50;
 let cnv;
 function setup() {

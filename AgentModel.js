@@ -16,8 +16,12 @@
  */
 
 //for the infogrphic we need to keep track of the amount of different agents
-let preyCount, predatorCount, prey = [], predator = [];
-
+let preyCount;
+let predatorCount;
+let prey = [];
+let predator = [];
+let grassAmount = [];
+let total = 0;
 /** class AgentModel
 * @param {int} pixSize - sets the size of the agent
 * @param {int} t - sets the threshold of the prey
@@ -41,7 +45,7 @@ class AgentModel {
 		// console.log(direction[floor(random(3))].x);
 		this.rows = floor(height / pixSize);
 		this.cols = floor(width / pixSize);
-
+		total = this.rows * this.cols;
 		//2D array filled with Agents
 		for (let x = 0; x < this.cols; x++) {
 			let temp = [];
@@ -51,6 +55,9 @@ class AgentModel {
 			this.agents[x] = temp;
 		}
 		this.grass = new Grass(this.cols, this.rows, this.ps, 10);
+		prey = [];
+		predator = [];
+		grassAmount = [];
 	}
 	/**
 	 * sets the size of the pixel
@@ -69,7 +76,6 @@ class AgentModel {
 		for (let y = 0; y < this.rows; y++) {
 			for (let x = 0; x < this.cols; x++) {
 				//update every single Agent
-				//the health increases or decreases according to the type
 				this.agents[x][y].update(x, y, this.grass);
 				//kill all the predator with health lower than 1
 				if (this.agents[x][y].health < 1) this.agents[x][y].type = 0;
@@ -82,12 +88,14 @@ class AgentModel {
 		}
 		this.grass.update();
 		//push the data into arrays
-		prey.push(preyCount);
-		predator.push(predatorCount);
-		//if array bigger than 50 unit erase the first entry
-		if (prey.length > 50) {
+		prey.push((preyCount / total) * 100);
+		predator.push((predatorCount / total) * 100);
+		grassAmount.push(this.grass.grassAmountPercentage());
+		//if array bigger than tot unit erase the first entry
+		if (prey.length > 1000) {
 			prey.splice(0, 1);
 			predator.splice(0, 1);
+			grassAmount.splice(0, 1);
 		}
 	}
 	/**
@@ -108,6 +116,8 @@ class AgentModel {
 			let temp = this.agents[x][y].type;//we store the Agent in a temporary variable
 			this.agents[x][y].type = this.agents[posX][posY].type;//and here we swap
 			this.agents[posX][posY].type = temp;
+			// add the new position to the trail
+			// this.agents[x][y].addTrailPoint((posX * this.ps) + this.ps/2, (posY * this.ps) + this.ps/2);	
 			//reproduction: if the agent is a prey and its healty than reproduce
 			if (this.agents[posX][posY].type == 1 && this.agents[posX][posY].health > this.threshold) {
 				this.agents[x][y].type = 1;
@@ -130,15 +140,15 @@ class AgentModel {
 	*/
 	show() {
 		this.grass.show();
-		noStroke();
 		for (let y = 0; y < this.rows; y++) {
 			for (let x = 0; x < this.cols; x++) {
+				noStroke();
 				let nx = x * this.ps;
 				let ny = y * this.ps;
 				let c = this.colors[this.agents[x][y].type];
 				fill(c);
-				// ellipse(x * this.ps, y * this.ps, this.ps, this.ps);
 				rect(x * this.ps, y * this.ps, this.ps, this.ps);
+				// this.agents[x][y].showTrail();
 			}
 		}
 	}
@@ -153,15 +163,16 @@ class AgentModel {
 		stroke(0);
 		fill(255, 200);
 		rect(left - gutter, top + gutter, 50 * 3 + gutter * 2, infoH - gutter * 2);
-		showData(prey, this.colors[1], this.cols, this.rows);
-		showData(predator, this.colors[2], this.cols, this.rows);
-
+		showData(prey, this.colors[1]);
+		showData(predator, this.colors[2]);
+		showData(grassAmount, color(0, 255, 0));
+		phaseSpace(prey, predator);
 		/**function showData
 		* gets an array and a color as input and returns a small infographic
-		* @param {[]} arr - an Array of values
+		* @param {Array} arr - an Array of values
 		* @param {color} col - color to be drawn in the infographic
 		*/
-		function showData(arr, col, cols, rows) {
+		function showData(arr, col) {
 			noFill();
 			stroke(col);
 			strokeWeight(6);
@@ -169,8 +180,23 @@ class AgentModel {
 			//with begin/endShape()
 			beginShape();
 			for (let i = 0; i < arr.length; i++) {
-				let val = map(arr[i], 0, cols * rows, 0, infoH);
-				vertex(left + i * 3, top + val);
+				let val = map(arr[i], 0, 100, 0, infoH);
+				vertex(left + i, top + val);
+			}
+			endShape();
+		}
+
+		function phaseSpace(arr1, arr2) {
+			noFill();
+			stroke(0);
+			strokeWeight(1);
+			beginShape();
+			let w = width / 4;
+			let h = height / 4;
+			for (let i = 0; i < arr1.length; i++) {
+				let x = map(arr1[i], 0, 100, -w, w);
+				let y = map(arr2[i], 0, 100, -h, h);
+				curveVertex(width / 2 + x, height / 2 + y);
 			}
 			endShape();
 		}

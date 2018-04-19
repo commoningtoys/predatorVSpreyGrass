@@ -7,6 +7,8 @@ class Grass {
         this.growingRate = 1;
         this.grass = [];
         this.growing = false;
+        this.totalGrassAmount = this.grassAmount * this.cols * this.rows;
+        this.currentGrassAmount = 0;
         //2D array filled with Agents
         for (let x = 0; x < this.cols; x++) {
             let temp = [];
@@ -28,15 +30,21 @@ class Grass {
         }
     }
     update() {
+        this.currentGrassAmount = 0
         for (let x = 0; x < this.cols; x++) {
             for (let y = 0; y < this.rows; y++) {
                 if (this.grass[x][y] < 1) this.growing = true;
                 if (this.growing) {
                     this.grass[x][y] += this.growingRate;
-                    if(this.grass[x][y] <= this.grassAmount)this.growing = false;
+                    if(this.grass[x][y] >= this.grassAmount)this.growing = false;
                 }
+                this.currentGrassAmount += this.grass[x][y];
             }
         }
+    }
+    grassAmountPercentage(){
+        console.log(this.currentGrassAmount);
+        return (this.currentGrassAmount / this.totalGrassAmount) * 100;
     }
     consume(x, y, eatenAmount) {
         this.grass[x][y] -= eatenAmount;
