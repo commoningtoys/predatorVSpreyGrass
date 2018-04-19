@@ -4,6 +4,7 @@ class Grass {
         this.rows = _rows;
         this.ps = pixSize;
         this.grassAmount = grassAmount;
+        this.growingRate = 1;
         this.grass = [];
         this.growing = false;
         //2D array filled with Agents
@@ -31,7 +32,7 @@ class Grass {
             for (let y = 0; y < this.rows; y++) {
                 if (this.grass[x][y] < 1) this.growing = true;
                 if (this.growing) {
-                    this.grass[x][y]++;
+                    this.grass[x][y] += this.growingRate;
                     if(this.grass[x][y] <= this.grassAmount)this.growing = false;
                 }
             }
