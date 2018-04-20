@@ -71,7 +71,7 @@ class AgentModel {
 		this.grass.setPixelSize(val);
 		this.setModelDimensions();
 	}
-	setModelDimensions(){
+	setModelDimensions() {
 		this.modelWidth = this.cols * this.ps;
 		this.modelHeight = this.rows * this.ps;
 		console.log(this.modelWidth, this.modelHeight);
@@ -177,7 +177,7 @@ class AgentModel {
 		showData(prey, this.colors[1]);
 		showData(predator, this.colors[2]);
 		showData(grassAmount, color(0, 255, 0));
-		phaseSpace(prey, predator);
+		phaseSpaceCircle(prey, predator);
 		/**function showData
 		* gets an array and a color as input and returns a small infographic
 		* @param {Array} arr - an Array of values
@@ -208,6 +208,21 @@ class AgentModel {
 				let x = map(arr1[i], 0, 100, -w, w);
 				let y = map(arr2[i], 0, 100, -h, h);
 				curveVertex(width / 2 + x, height / 2 + y);
+			}
+			endShape();
+		} 
+		function phaseSpaceCircle(arr1, arr2) {
+			noFill();
+			stroke(0);
+			strokeWeight(1);
+			beginShape();
+			let r = width / 4;
+			// let h = height / 4;
+			for (let i = 0; i < arr1.length; i++) {
+				let angle = map(i, 0, arr1.length, 0, TWO_PI);
+				let x = width/2 + (arr1[i] * cos(angle) * 3)
+				let y = width/2 + (arr2[i] * sin(angle) * 3)
+				vertex(x, y);
 			}
 			endShape();
 		}

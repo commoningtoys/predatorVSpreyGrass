@@ -12,6 +12,7 @@ function setup() {
 }
 
 function draw() {
+	background(255)
 		if (speed >= 50) {
 			let loop = abs(50 - speed);
 			if(loop == 0)loop = 1;
