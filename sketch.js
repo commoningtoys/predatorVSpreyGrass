@@ -1,6 +1,9 @@
 const CELL = 80;
 let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 50;
 let cnv;
+let osc;
+let oscPrey;
+let oscPredator;
 function setup() {
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
@@ -9,6 +12,16 @@ function setup() {
 	pixelDensity(1);
 	noStroke();
 	initModel();
+	///////////
+	// sound //
+	///////////
+	// osc = new p5.SinOsc(240);
+	// oscPredator = new p5.SinOsc(240);
+	// oscPrey = new p5.SinOsc(240);
+	// osc.amp(0);
+	// osc.start();
+	// oscPredator.start();
+	// oscPrey.start();
 }
 
 function draw() {
@@ -29,7 +42,9 @@ function draw() {
 		}
 		am.show();
 		am.infographic();
-
+		// let freqPred = map(predator[predator.length -1], 0, 100, 0, 440);
+		// let freqPrey = map(prey[prey.length -1], 0, 100, 0, 440);
+		// osc.freq(oscPredator);
 		// document.getElementById('frameRate').innerHTML = frameRate();
 }
 
