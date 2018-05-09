@@ -42,7 +42,7 @@ function mousePressed() {
  * @returns the minimum between width and height of the contained div
  */
 function minimum(){
-	// let cnvDiv = document.getElementById('myContainer');
+	// let cnvDiv = docum. ent.getElementById('myContainer');
 
 	// let w = cnvDiv.offsetWidth;
 	let h = innerHeight;
@@ -57,11 +57,7 @@ function windowResized(){
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
 	am.setPixSize(agentSize);
-<<<<<<< HEAD
-	resizeCanvas(w, innerHeight);
-=======
 	resizeCanvas(w, w);
->>>>>>> dev
 }
 
 function initModel() {
@@ -70,11 +66,7 @@ function initModel() {
 	let empty = document.getElementById("empty").value;
 	let prey = document.getElementById("prey").value;
 	console.log(threshold, empty, prey, maxHealth)
-<<<<<<< HEAD
-	am = new AgentModel(agentSize, threshold, empty, prey, maxHealth);
-=======
 	am = new AgentModel(agentSize,threshold, empty, prey, maxHealth);
->>>>>>> dev
 }
 function updateValue() {
 	document.getElementById("thehreshold").innerHTML = "THRESHOLD: " + document.getElementById("threshold").value;
