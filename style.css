@@ -105,10 +105,10 @@
 		width: 250px;
 	}
     #p5Sketch{
-		/* width: 70%; */
-		/* max-width: 750px; */
+		width: 70%;
+		max-width: 750px;
 		height: auto;
-		/* min-height: 800px; */
+		min-height: 800px;
 		display: block;
 		margin: auto;
 		z-index: -1;
