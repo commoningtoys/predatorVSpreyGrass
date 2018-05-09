@@ -7,7 +7,7 @@ function setup() {
 	agentSize = w / CELL;
 	cnv = createCanvas(w, w);
 	cnv.parent('p5Sketch');
-	// pixelDensity(1);
+	console.log(pixelDensity());
 	noStroke();
 	initModel();
 }
@@ -49,7 +49,7 @@ function minimum(){
 	console.log(h, height);
 	// if(w < h) return w;
 	// else return h;
-	if(h < 700) return h - 10;
+	if(h < 700) return h  - 10;
 	else return 700 - 10;
 }
 
