@@ -74,7 +74,7 @@ class AgentModel {
 	setModelDimensions() {
 		this.modelWidth = this.cols * this.ps;
 		this.modelHeight = this.rows * this.ps;
-		console.log(this.modelWidth, this.modelHeight);
+		// console.log(this.modelWidth, this.modelHeight);
 	}
 	/**
 	* this function updates the model 
@@ -166,14 +166,14 @@ class AgentModel {
 	* different agents drawn to the screen
 	*/
 	infographic() {
-		let infoHeight = height - this.modelHeight;
+		let infoHeight = 200;
 		let left = 10;
 		let gutter = 7;
 		//first we draw a transparent background
 		strokeWeight(3);
 		noStroke();
 		fill(255, 200);
-		rect(0, this.modelHeight, width, infoHeight);
+		rect(0, 0, width, height);
 		showData(prey, this.colors[1]);
 		showData(predator, this.colors[2]);
 		showData(grassAmount, color(0, 255, 0));

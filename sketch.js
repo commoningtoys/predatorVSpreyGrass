@@ -1,16 +1,19 @@
 const CELL = 80;
 let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 50;
 let cnv;
+<<<<<<< HEAD
+=======
+let showInfo = false;
+>>>>>>> dev
 function setup() {
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
-	cnv = createCanvas(w, innerHeight);
+	cnv = createCanvas(w, w);
 	cnv.parent('p5Sketch');
-	pixelDensity(1);
+	console.log(pixelDensity());
 	noStroke();
 	initModel();
 }
-
 function draw() {
 	background(255)
 		if (speed >= 50) {
@@ -28,7 +31,7 @@ function draw() {
 			}
 		}
 		am.show();
-		am.infographic();
+		if(showInfo)am.infographic();
 
 		// document.getElementById('frameRate').innerHTML = frameRate();
 }
@@ -42,20 +45,26 @@ function mousePressed() {
  * @returns the minimum between width and height of the contained div
  */
 function minimum(){
-	let cnvDiv = document.getElementById('p5Sketch');
+	// let cnvDiv = document.getElementById('myContainer');
 
-	let w = cnvDiv.offsetWidth;
-	let h = cnvDiv.offsetHeight;
-	console.log(w, h);
-	if(w < h) return w;
-	else return h;
+	// let w = cnvDiv.offsetWidth;
+	let h = innerHeight;
+	console.log(h, height);
+	// if(w < h) return w;
+	// else return h;
+	if(h < 700) return h  - 10;
+	else return 700 - 10;
 }
 
 function windowResized(){
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
 	am.setPixSize(agentSize);
+<<<<<<< HEAD
 	resizeCanvas(w, innerHeight);
+=======
+	resizeCanvas(w, w);
+>>>>>>> dev
 }
 
 function initModel() {
@@ -64,7 +73,11 @@ function initModel() {
 	let empty = document.getElementById("empty").value;
 	let prey = document.getElementById("prey").value;
 	console.log(threshold, empty, prey, maxHealth)
+<<<<<<< HEAD
 	am = new AgentModel(agentSize, threshold, empty, prey, maxHealth);
+=======
+	am = new AgentModel(agentSize,threshold, empty, prey, maxHealth);
+>>>>>>> dev
 }
 function updateValue() {
 	document.getElementById("thehreshold").innerHTML = "THRESHOLD: " + document.getElementById("threshold").value;

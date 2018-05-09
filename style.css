@@ -1,22 +1,27 @@
-	@font-face{
+	@font-face {
 		font-family: mono;
 		src: url(font/SourceCodePro-Regular.otf.woff);
 	}
-	@font-face{
+
+	@font-face {
 		font-family: monoIt;
 		src: url(font/SourceCodePro-It.otf.woff);
 	}
+
 	body {
-		margin:0;
-		padding:0;
+		margin: 0;
+		padding: 0;
 	}
-	a{
+
+	a {
 		color: #f00;
 	}
-	a:hover{
+
+	a:hover {
 		font-style: italic;
 	}
-	input{	
+
+	input {
 		/* left: 5px;	 */
 		/* background: #fff; */
 		/* position: absolute; */
@@ -26,37 +31,46 @@
 		float: left;
 		z-index: 2;
 	}
-	h2{
+
+	h2 {
 		background-color: #000;
 		color: #fff;
 	}
-	h3{
+
+	h3 {
 		background-color: #000;
 		color: #fff;
 	}
-	li{
+
+	li {
 		font-family: mono;
 		font-size: 12px;
 	}
-	code{
+
+	code {
 		font-family: monoIt;
 		background: #bbb;
 	}
+
 	/*styling buttons*/
-	button{
+
+	button {
 		/* position: absolute;
 		left: 5px; */
 		background-color: #fff;
 		border: solid 3px #000;
 		font-family: Arial, Helvetica, sans-serif;
 		font-weight: bolder;
-		font-size: 110%;
-		padding-top: 3px;
+		font-size: 70%;
+		/* padding-top: 3px; */
 	}
-	button:hover{
+
+	button:hover {
 		border: solid 3px #0f0;
 	}
+
 	/*class description*/
+
 	/* .cnv{
 		position: absolute;
 		left: 0px;
@@ -64,19 +78,21 @@
 		border: solid 3px #000;
 		padding: 5px 5px 3px 5px;
 	} */
-	.inputValue{
+
+	.inputValue {
 		/* position: absolute;
 		left: 185px; */
 		background: #fff;
 		color: #000;
 		font-family: Helvetica;
 		font-weight: bolder;
-		font-size: 90%;
-		border: solid 3px #000;
+		font-size: 70%;
+		/* border: solid 3px #000; */
 		z-index: 2;
-		padding: 5px 5px 3px 5px;
+		/* padding: 0.2em; */
 	}
-	.textElement{		
+
+	.textElement {
 		overflow-y: scroll;
 		display: none;
 		position: absolute;
@@ -89,7 +105,8 @@
 		z-index: 2;
 		padding: 5px 5px 3px 5px;
 	}
-	.resizeElement{		
+
+	.resizeElement {
 		position: absolute;
 		background-color: rgba(255, 255, 255, 0.7);
 		color: #000;
@@ -100,16 +117,32 @@
 		z-index: 2;
 		padding: 5px 5px 3px 5px;
 	}
-	.menu{
+
+	.menu {
 		position: fixed;
-		width: 250px;
+		left: 0px;
+		width: 200px;
+		padding: 5px;
+		overflow-y: scroll;
 	}
-    #p5Sketch{
+
+	.container {
+		right: 0px;
 		width: 70%;
-		max-width: 750px;
-		height: auto;
-		min-height: 800px;
+		height: 100%;
+		/* min-height: 800px; */
+		display: block;
+		margin: auto auto auto 200px;
+	}
+
+	#p5Sketch {
+		padding: 5px;
+		position: relative;
+		/* left: 0px; */
 		display: block;
 		margin: auto;
+		min-width: 250px;
+		height: 80%;
+		width: auto;
 		z-index: -1;
-    }
+	}

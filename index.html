@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>Predator_and_Prey_Model</title>
-
+	<!-- <link rel="manifest" href="manifest.json"> -->
 	<script src="libraries/p5.js"></script>
 	<script src="libraries/p5.dom.js"></script>
 	<script src="libraries/p5.sound.js"></script>
@@ -18,113 +18,73 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 
-<body onresize="windowResized()">
-	<div id="container">
+<body>
+	<div class="menu">
+		<table>
+			<tr>
+				<th>
+					<input type="range" id="threshold" value="2" min="2" max="100" step="1" onchange="updateValue()">
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<div class="inputValue" id="thehreshold">THRESHOLD: 2</div>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<input type="range" id="maxHealth" value="60" min="5" max="300" step="1" onchange="updateValue()">
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<div class="inputValue" id="themaxHealth">MAX HEALTH: 60</div>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<input type="range" id="empty" value="90" min="10" max="90" step="1" onchange="updateValue()">
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<div class="inputValue" id="theempty">EMPTY: 90%</div>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<input type="range" id="prey" value="29" min="10" max="100" step="1" onchange="updateValue()">
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<div class="inputValue" id="theprey">PREY: 29%</div>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<input type="range" id="speed" value="50" min="1" max="100" step="1" onchange="updateValue()">
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<div class="inputValue" id="thespeed">SPEED: 50%</div>
+				</th>
+			</tr>
+		</table>
+		<br>
+		<button type="button" id="playPause" id="initModel" onclick="initModel()">PLAY</button>
+		<br>
+		<br>
+		<button type="button" id="info" onclick="showInfo = !showInfo">INFO</button>
+
+		<!-- <button type="button" id="howButton" onclick="showDescription()">HOW IT WORKS</button> -->
+	</div>
+	<div id="myContainer" class="container">
 		<!-- <div id="frameRate" style="top: 600px; position: fixed;"></div> -->
 		<div id="p5Sketch">
-			<div class="menu">
-				<table>
-					<tr>
-						<th>
-							<input type="range" id="threshold" value="2" min="2" max="100" step="1" onchange="updateValue()">
-						</th>
-						<th>
-							<div class="inputValue" id="thehreshold">THRESHOLD: 2</div>
-						</th>
-					</tr>
-					<tr>
-						<th>
-							<input type="range" id="maxHealth" value="60" min="5" max="300" step="1" onchange="updateValue()">
-						</th>
-						<th>
-							<div class="inputValue" id="themaxHealth">MAX HEALTH: 60</div>
-						</th>
-					</tr>
-					<tr>
-						<th>
-							<input type="range" id="empty" value="90" min="10" max="90" step="1" onchange="updateValue()">
-						</th>
-						<th>
-							<div class="inputValue" id="theempty">EMPTY: 90%</div>
-						</th>
-					</tr>
-					<tr>
-						<th>
-							<input type="range" id="prey" value="29" min="10" max="100" step="1" onchange="updateValue()">
-						</th>
-						<th>
-							<div class="inputValue" id="theprey">PREY: 29%</div>
-						</th>
-					</tr>
-					<tr>
-						<th>
-							<input type="range" id="speed" value="50" min="1" max="100" step="1" onchange="updateValue()">
-						</th>
-						<th>
-							<div class="inputValue" id="thespeed">SPEED: 50%</div>
-						</th>
-					</tr>
-				</table>
-				<button type="button" id="playPause" id="initModel" onclick="initModel()">PLAY</button>
-				<!-- <button type="button" id="howButton" onclick="showDescription()">HOW IT WORKS</button> -->
-			</div>
+
 		</div>
-	</div>
-	<div class="textElement" id="description">
-		<h2>Predator and Prey Model</h2>
-		The model is based on the following simple rules:
-		<br>
-		<br>
-		<span style="color: #0ff; background-color: #000;">Prey:</span>
-		<ul>
-			<li>Tries to move in a random direction.</li>
-			<li>Health increases.</li>
-			<li>When health reaches a threshold:</li>
-			<li>They will reproduce, creating a new "Prey"</li>
-			<li>Their health resets to 1</li>
-		</ul>
-		<span style="color: #f0f; background-color: #000;">Predator:</span>
-		<ul>
-			<li>Tries to move in a random direction.</li>
-			<li>Health decreases.</li>
-			<li>When health reaches 0, they die and turn into "Nothing".</li>
-			<li>If the adjacent square is a prey: They will eat it, turning it into a "predator" (reproducing) Their health will increase
-				by the amount of health the eaten prey had</li>
-		</ul>
-		<h3>How it works</h3>
-		The AgentModel class creates a grid of agents, the agets can be: preys, predators or nothing.
-		<br> Each frame the model is updated. First by updating the health of the agents, than they are moved. The agents can move
-		only in the adiacent free cells, it means either up, down, left and right, Diagonal movement are not allowed.
-		<code>move(x, y)</code> tries to move the agent to a random direction
-		<code>moveUp(x, y)</code>
-		<code>moveRight(x, y)</code>
-		<code>moveDown(x, y)</code>
-		<code>moveLeft(x, y)</code>, if the agent finds himself at one of the edges than the
-		<code>move(x, y)</code> function is called again until it can move to one of the directions.
-		<br> Once the agent is moved the
-		<code>moveUp/Right/Down/Left(x, y)</code> function checks wheter the neighbour was a predator in that case the prey is eaten and the predator reproduces getting
-		the health of the eaten prey.
-		<br> There are four values to change wth the slider
-		<ul>
-			<li>The threshold, that is the rate by which the prey reproduce</li>
-			<li>The maximum health of every single Agent</li>
-			<li>The initial number of empty or cells</li>
-			<li>The proportion between predators and preys</li>
-		</ul>
-		The play button restarts the model with the new values.
-		<br> With the
-		<code>LEFT</code> mouse button is possible to add new predators, and with the
-		<code>RIGHT</code> mouse button is possible to add new preys.
-		<br> The infographic on the left side shows how many preys and predator are still alive.
-		<h3>Reference</h3>
-		<a href="https://github.com/Hopson97/PredatorAndPrey">Predator & Prey Model</a> by
-		<a href="https://github.com/Hopson97">Matthew Hopson</a>
-		<h3>FORK IT
-			<a href="https://github.com/Yyyyaaaannnnoooo/Predator_and_Prey_Model">HERE</a>
-		</h3>
-		<br>
-		<br>
-		<br>
 	</div>
 	<!-- <div class="resizeElement" id="resizeMe" style="top:33%; left: 1000px; width: auto; height: auto;"><h1>< < < < < < < < < < < < < < </h1><br>RESIZE THE WINDOW TO THE LEFT TO START THE MODEL</div> -->
 </body>
