@@ -53,8 +53,8 @@ function minimum(){
 
 function windowResized(){
 	w = floor(minimum() / CELL) * CELL;
-	agentSize = w / CELL;
-	am.setPixSize(agentSize);
+	// agentSize = w / CELL;
+	// am.setPixSize(agentSize);
 	resizeCanvas(w, innerHeight);
 }
 
@@ -63,8 +63,7 @@ function initModel() {
 	let maxHealth = document.getElementById("maxHealth").value;
 	let empty = document.getElementById("empty").value;
 	let prey = document.getElementById("prey").value;
-	console.log(threshold, empty, prey, maxHealth)
-	am = new AgentModel(agentSize, threshold, empty, prey, maxHealth);
+	am = new AgentModel(threshold, empty, prey, maxHealth);
 }
 function updateValue() {
 	document.getElementById("thehreshold").innerHTML = "THRESHOLD: " + document.getElementById("threshold").value;
