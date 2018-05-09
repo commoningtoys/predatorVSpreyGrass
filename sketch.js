@@ -1,10 +1,7 @@
 const CELL = 80;
 let am = null, w, h, agentSize = 10, play = false, showMenu = false, resizeBox, speed = 50;
 let cnv;
-<<<<<<< HEAD
-=======
 let showInfo = false;
->>>>>>> dev
 function setup() {
 	w = floor(minimum() / CELL) * CELL;
 	agentSize = w / CELL;
